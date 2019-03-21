@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TotalHealth.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="cnnString" Type="System.String" Scope="User">
+      <Value Profile="(Default)">server=(local);database=TotalHealth;integrated security=SSPI</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
