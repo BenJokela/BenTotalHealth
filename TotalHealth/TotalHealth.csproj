@@ -129,6 +129,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Startup Forms\Splash.resx">
       <DependentUpon>Splash.cs</DependentUpon>
@@ -145,6 +146,27 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconfinder_appointment-new_23189.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconfinder_8_375259.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconfinder_9_375256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconfinder_appointment-new_231891.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iconfinder_37_SEO_Report_1688840.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PatientReport.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\AppointmentReport.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

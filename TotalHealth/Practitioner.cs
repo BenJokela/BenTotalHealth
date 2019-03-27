@@ -202,6 +202,7 @@ namespace TotalHealth
                     {
                         MessageBox.Show("Please select a Therapist Type.");
                         cboType.Focus();
+                        return;
                     }
                     decimal hourly = Convert.ToDecimal(txtHourly.Text.Trim());
                     decimal premium = Convert.ToDecimal(txtPremium.Text.Trim());
