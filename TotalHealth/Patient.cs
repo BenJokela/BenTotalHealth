@@ -35,7 +35,6 @@ namespace TotalHealth
             cboLastNames.DataSource = dtLastNames;
             cboLastNames.DisplayMember = "LastName";
             cboLastNames.ValueMember = "PatientNumber";
-
         }
         private void ReadyMode()
         {
@@ -59,9 +58,8 @@ namespace TotalHealth
             addMode = true;
             ClearForm();
             grpPatientInfo.Enabled = true;
-            txtPatientNumber.ReadOnly = false;
+            txtPatientNumber.ReadOnly = true;
             GenerateRandomPatientNumber();
-
         }
         private void GenerateRandomPatientNumber()
         {
@@ -197,10 +195,10 @@ namespace TotalHealth
                 {
                     string sql;
                     string patientNumber = txtPatientNumber.Text;
-                    string firstName = txtFirstName.Text.Trim();
-                    string lastName = txtLastName.Text.Trim();
-                    string address = txtAddress.Text.Trim();
-                    string city = txtCity.Text.Trim();
+                    string firstName = FixApostrophe(txtFirstName.Text.Trim());
+                    string lastName = FixApostrophe(txtLastName.Text.Trim());
+                    string address = FixApostrophe(txtAddress.Text.Trim());
+                    string city = FixApostrophe(txtCity.Text.Trim());
 
                     string phone = txtPhone.Text.Trim(); //already validated elsewhere
                     string areaCode = phone.Substring(0, 3);
@@ -211,12 +209,12 @@ namespace TotalHealth
 
                     string province = cboProv.SelectedItem.ToString();
 
-                    string postCode = txtPostCode.Text.ToUpper().Trim();
+                    string postCode = txtPostCode.Text.ToUpper().Trim();//already validated elsewhere
                     if (postCode.Length == 6)
                     {
                         postCode = postCode.Substring(0, 3) + " " + postCode.Substring(3, 3);
                     }
-                    string email = txtEmail.Text.Trim();
+                    string email = txtEmail.Text.Trim();//already validated elsewhere
                     //loyalty discount
                     //int countAppts = Convert.ToInt16(GetScalarValue($"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = {patientNumber}"));
 
@@ -250,6 +248,12 @@ namespace TotalHealth
 
         }
         #region Validation
+
+        private string FixApostrophe(string str)
+        {
+            return str.Replace("'", "''");
+        }
+
 
         private bool IsValidEmail(string email)
         {

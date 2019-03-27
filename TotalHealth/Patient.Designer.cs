@@ -64,7 +64,6 @@
             this.txtPatientNumber = new System.Windows.Forms.TextBox();
             this.lblPatientNumber = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
-            this.lblPatNumFormat = new System.Windows.Forms.Label();
             this.grpSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.grpPatientInfo.SuspendLayout();
@@ -381,7 +380,6 @@
             // 
             // grpPatientInfo
             // 
-            this.grpPatientInfo.Controls.Add(this.lblPatNumFormat);
             this.grpPatientInfo.Controls.Add(this.chkLoyalty);
             this.grpPatientInfo.Controls.Add(this.txtPatientNumber);
             this.grpPatientInfo.Controls.Add(this.txtFirstName);
@@ -446,16 +444,6 @@
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = true;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
-            // lblPatNumFormat
-            // 
-            this.lblPatNumFormat.AutoSize = true;
-            this.lblPatNumFormat.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.150944F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPatNumFormat.Location = new System.Drawing.Point(163, 51);
-            this.lblPatNumFormat.Name = "lblPatNumFormat";
-            this.lblPatNumFormat.Size = new System.Drawing.Size(74, 16);
-            this.lblPatNumFormat.TabIndex = 29;
-            this.lblPatNumFormat.Text = "xxxx######";
             // 
             // Patient
             // 
@@ -529,6 +517,5 @@
         private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.ComboBox cboLastNames;
         private System.Windows.Forms.Label lblOrSelect;
-        private System.Windows.Forms.Label lblPatNumFormat;
     }
 }
