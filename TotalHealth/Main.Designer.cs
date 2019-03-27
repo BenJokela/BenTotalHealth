@@ -208,6 +208,7 @@
             this.tsbAppointment.Name = "tsbAppointment";
             this.tsbAppointment.Size = new System.Drawing.Size(47, 47);
             this.tsbAppointment.Text = "toolStripButton1";
+            this.tsbAppointment.ToolTipText = "Add new appointment";
             this.tsbAppointment.Click += new System.EventHandler(this.appointmentToolStripMenuItem_Click);
             // 
             // toolStripButton1
@@ -218,8 +219,9 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.toolStripButton1.Size = new System.Drawing.Size(44, 70);
+            this.toolStripButton1.Size = new System.Drawing.Size(44, 58);
             this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.ToolTipText = "Patient Report";
             this.toolStripButton1.Click += new System.EventHandler(this.patientReportToolStripMenuItem_Click);
             // 
             // tsbPatient
@@ -231,6 +233,7 @@
             this.tsbPatient.Name = "tsbPatient";
             this.tsbPatient.Size = new System.Drawing.Size(47, 47);
             this.tsbPatient.Text = "toolStripButton2";
+            this.tsbPatient.ToolTipText = "Patient";
             this.tsbPatient.Click += new System.EventHandler(this.patientToolStripMenuItem_Click);
             // 
             // tsbPractitioner
@@ -242,6 +245,7 @@
             this.tsbPractitioner.Name = "tsbPractitioner";
             this.tsbPractitioner.Size = new System.Drawing.Size(47, 47);
             this.tsbPractitioner.Text = "toolStripButton3";
+            this.tsbPractitioner.ToolTipText = "Practitioner";
             this.tsbPractitioner.Click += new System.EventHandler(this.practitionerToolStripMenuItem_Click);
             // 
             // toolStripButton2
@@ -251,8 +255,9 @@
             this.toolStripButton2.Image = global::TotalHealth.Properties.Resources.AppointmentReport;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(44, 70);
+            this.toolStripButton2.Size = new System.Drawing.Size(44, 58);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.ToolTipText = "Appointment Report";
             this.toolStripButton2.Click += new System.EventHandler(this.patientChargesToolStripMenuItem_Click);
             // 
             // Main
