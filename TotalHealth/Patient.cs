@@ -26,6 +26,7 @@ namespace TotalHealth
         }
         private void Patient_Load(object sender, EventArgs e)
         {
+            myParent.tss1.Text = string.Empty;
             FillProvinces();
             FillSearchBy();
             ReadyMode();
@@ -191,7 +192,7 @@ namespace TotalHealth
         {
             try
             {
-                if (IsClean())
+                if (ValidateChildren(ValidationConstraints.Enabled))
                 {
                     string sql;
                     string patientNumber = txtPatientNumber.Text;
@@ -321,6 +322,7 @@ namespace TotalHealth
             if (ctl.Text == string.Empty)
             {
                 e.Cancel = true;
+                ctl.Focus();
                 if (ctl.Name == "txtFirstName")
                 {
                     msg = "Please enter a first name";
@@ -372,6 +374,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter phone number in correct format: ###-###-####";
+                    ctl.Focus();
                 }
                 else
                 {
@@ -384,6 +387,7 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please enter a valid phone number";
+                        ctl.Focus();
                     }
                 }
             }
@@ -393,6 +397,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid postal code.";
+                    ctl.Focus();
                 }
             }
             if (ctl.Name == "txtEmail")
@@ -401,6 +406,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid email address.";
+                    ctl.Focus();
                 }
             }
 
@@ -410,24 +416,24 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please select a province";
+                    ctl.Focus();
                 }
             }
-
             errorProvider1.SetError(ctl, msg);
         }
 
 
-        private bool IsClean()
-        {
-            foreach (Control ctl in grpPatientInfo.Controls)
-            {
-                if (errorProvider1.GetError(ctl) != string.Empty)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //private bool IsClean()
+        //{
+        //    foreach (Control ctl in grpPatientInfo.Controls)
+        //    {
+        //        if (errorProvider1.GetError(ctl) != string.Empty)
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
 
         #endregion
 
@@ -502,6 +508,12 @@ namespace TotalHealth
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            foreach (Control ctl in grpPatientInfo.Controls)
+            {
+                errorProvider1.SetError(ctl, string.Empty);
+            }
+            errorProvider1.Clear();
+            if (addMode) { ClearForm(); }
             ReadyMode();
         }
 

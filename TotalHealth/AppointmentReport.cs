@@ -48,7 +48,7 @@ namespace TotalHealth
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
             DateTime dateFrom = dtpFrom.Value;
-            DateTime dateTo = dtpTo.Value;
+            DateTime dateTo = dtpTo.Value.AddDays(1);
 
             string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge FROM Patient P" +
                 $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +

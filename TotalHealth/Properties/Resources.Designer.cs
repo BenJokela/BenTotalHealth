@@ -73,6 +73,16 @@ namespace TotalHealth.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Family_Health_Small {
+            get {
+                object obj = ResourceManager.GetObject("Family-Health-Small", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap iconfinder_37_SEO_Report_1688840 {
             get {
                 object obj = ResourceManager.GetObject("iconfinder_37_SEO_Report_1688840", resourceCulture);
