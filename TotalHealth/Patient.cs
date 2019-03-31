@@ -31,8 +31,10 @@ namespace TotalHealth
             FillSearchBy();
             ReadyMode();
 
+        }
+        private void FillLastNames()
+        {
             DataTable dtLastNames = GetData($"SELECT PatientNumber, LastName FROM Patient");
-
             cboLastNames.DataSource = dtLastNames;
             cboLastNames.DisplayMember = "LastName";
             cboLastNames.ValueMember = "PatientNumber";
@@ -43,6 +45,7 @@ namespace TotalHealth
             ToggleButtonState(false);
             addMode = false;
             grpPatientInfo.Enabled = false;
+            FillLastNames();
         }
         private void EditMode()
         {
@@ -222,8 +225,11 @@ namespace TotalHealth
                     int loyaltyStatus = chkLoyalty.Checked ? 1 : 0;
                     if (addMode)
                     {
-                        sql = $"INSERT INTO Patient VALUES ('{patientNumber}', '{firstName}', '{lastName}', '{address}', '{city}', " +
-                            $"'{province}', '{postCode}', {phoneNum}, '{email}', {loyaltyStatus})";
+
+                        sql = $"IF NOT EXISTS (SELECT PatientNumber FROM Patient WHERE PatientNumber = '{patientNumber}') BEGIN" +
+                            $" INSERT INTO Patient (PatientNumber, FirstName, LastName, StreetAddress, City, Province, PostalCode, Phone, Email, LoyaltyDiscount) " +
+                            $"VALUES ('{patientNumber}', '{firstName}', '{lastName}', '{address}', '{city}', " +
+                            $"'{province}', '{postCode}', {phoneNum}, '{email}', {loyaltyStatus}) END";
                     }
                     else //Edit Mode
                     {
@@ -235,9 +241,15 @@ namespace TotalHealth
                     if (rowsAffected == 1)
                     {
                         MessageBox.Show($"The record for {firstName} {lastName} has been succesfully updated.");
+                        ReadyMode();
                     }
-                    else { MessageBox.Show("Something went wrong."); }
+                    else { MessageBox.Show("Something went wrong. Try a Different Patient Number"); }
 
+                }
+                else
+                {
+                    MessageBox.Show("Please fix all errors before saving.");
+                    return;
                 }
             }
             catch (Exception ex)
@@ -322,7 +334,7 @@ namespace TotalHealth
             if (ctl.Text == string.Empty)
             {
                 e.Cancel = true;
-                ctl.Focus();
+                //ctl.Focus();
                 if (ctl.Name == "txtFirstName")
                 {
                     msg = "Please enter a first name";
@@ -374,7 +386,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter phone number in correct format: ###-###-####";
-                    ctl.Focus();
+                    //ctl.Focus();
                 }
                 else
                 {
@@ -387,7 +399,7 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please enter a valid phone number";
-                        ctl.Focus();
+                        //ctl.Focus();
                     }
                 }
             }
@@ -397,7 +409,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid postal code.";
-                    ctl.Focus();
+                    //ctl.Focus();
                 }
             }
             if (ctl.Name == "txtEmail")
@@ -406,7 +418,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid email address.";
-                    ctl.Focus();
+                    //ctl.Focus();
                 }
             }
 
@@ -416,7 +428,7 @@ namespace TotalHealth
                 {
                     e.Cancel = true;
                     msg = "Please select a province";
-                    ctl.Focus();
+                    //ctl.Focus();
                 }
             }
             errorProvider1.SetError(ctl, msg);
