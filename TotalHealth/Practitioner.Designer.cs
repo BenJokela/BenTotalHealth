@@ -81,6 +81,7 @@
             // 
             this.txtFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtFirstName.Location = new System.Drawing.Point(24, 30);
+            this.txtFirstName.MaxLength = 30;
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(100, 28);
             this.txtFirstName.TabIndex = 2;
@@ -101,6 +102,7 @@
             // 
             this.txtLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLastName.Location = new System.Drawing.Point(24, 95);
+            this.txtLastName.MaxLength = 30;
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(100, 28);
             this.txtLastName.TabIndex = 4;

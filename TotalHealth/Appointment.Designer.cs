@@ -208,9 +208,9 @@
             // 
             this.groupBox1.Controls.Add(this.cboStartTime);
             this.groupBox1.Controls.Add(this.cboEndTime);
-            this.groupBox1.Location = new System.Drawing.Point(369, 212);
+            this.groupBox1.Location = new System.Drawing.Point(367, 210);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(200, 133);
+            this.groupBox1.Size = new System.Drawing.Size(147, 130);
             this.groupBox1.TabIndex = 18;
             this.groupBox1.TabStop = false;
             // 

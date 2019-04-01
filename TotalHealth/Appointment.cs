@@ -124,6 +124,18 @@ namespace TotalHealth
                 {
                     MessageBox.Show("Appointment has been successfully booked.");
                 }
+                sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
+                bool loyalty = (bool)GetScalarValue(sql);
+                if (!loyalty)
+                {
+                    sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{patientNumber}'";
+                    int aptCount = Convert.ToInt16(GetScalarValue(sql));
+                    if (aptCount >= 3)
+                    {
+                        sql = $"UPDATE Patient SET LoyaltyDiscount = 1 WHERE PatientNumber = '{patientNumber}'";
+                        SendData(sql);
+                    }
+                }
             }
 
         }
@@ -161,6 +173,9 @@ namespace TotalHealth
 
         private void cboStartTime_SelectionChangeCommitted(object sender, EventArgs e)
         {
+
+            //string[] test = new string[] { "10:30", "11:00", "11:30", "12:00" };
+            //test[cboStartTime/.index][test.Length]
             cboEndTime.Text = string.Empty;
             if (cboStartTime.SelectedItem.ToString() == "9:00")
             {
