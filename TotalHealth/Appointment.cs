@@ -30,18 +30,28 @@ namespace TotalHealth
             myParent.tss2.Text = string.Empty;
 
             FillTimeDropdowns();
+            FillPatientMenu();
+            FillTherapistMenu();
+            dtpFrom.CustomFormat = "MMMM dd";
+        }
+        private void FillTherapistMenu()
+        {
+            string sql = "Select TherapistID, LastName + ', ' + FirstName AS TherapistName FROM Therapist";
+            DataTable dtTherapists = GetData(sql);
+            cboPractitioner.DataSource = dtTherapists;
+            cboPractitioner.DisplayMember = "TherapistName";
+            cboPractitioner.ValueMember = "TherapistID";
 
+        }
+
+        private void FillPatientMenu()
+        {
             string sql = "Select PatientNumber, LastName + ', ' + FirstName AS PatientName FROM Patient";
             DataTable dtPatients = GetData(sql);
             cboPatient.DataSource = dtPatients;
             cboPatient.DisplayMember = "PatientName";
             cboPatient.ValueMember = "PatientNumber";
-            sql = "Select TherapistID, LastName + ', ' + FirstName AS TherapistName FROM Therapist";
-            DataTable dtTherapists = GetData(sql);
-            cboPractitioner.DataSource = dtTherapists;
-            cboPractitioner.DisplayMember = "TherapistName";
-            cboPractitioner.ValueMember = "TherapistID";
-            dtpFrom.CustomFormat = "MMMM dd";
+
         }
         private void FillTimeDropdowns()
         {
@@ -104,6 +114,42 @@ namespace TotalHealth
 
 
 
+        private void btnCalculateCharge_Click(object sender, EventArgs e)
+        {
+            if (ValidateChildren(ValidationConstraints.Enabled))
+            {
+                int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
+                string patientNumber = cboPatient.SelectedValue.ToString();
+
+                string sql = $"SELECT HourlyRate FROM Therapist WHERE TherapistId = {therapistID}";
+
+                decimal rate = Convert.ToDecimal(GetScalarValue(sql));
+
+                string date = dtpFrom.Value.ToShortDateString();
+                string startDateTime = date + " " + cboStartTime.SelectedItem.ToString();
+                string endDateTime = date + " " + cboEndTime.SelectedItem.ToString();
+                start = Convert.ToDateTime(startDateTime);
+                end = Convert.ToDateTime(endDateTime);
+                TimeSpan hours = end - start;
+                decimal length = Convert.ToDecimal(hours.TotalHours);
+                decimal premiumAdd = 0m;
+
+                if (chkPremium.Checked)
+                {
+                    sql = $"SELECT PremiumAddOnCost FROM Therapist WHERE TherapistId = {therapistID}";
+                    premiumAdd = Convert.ToDecimal(GetScalarValue(sql));
+                }
+                    //check if patient has loyalty status
+                sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
+                bool loyalty = (bool)GetScalarValue(sql);
+                if (loyalty) { premiumAdd *= .65m; }
+
+                total = (rate * length) + premiumAdd;
+
+                lblTotalCharge.Text = total.ToString("c");
+
+            }
+        }
         private void btnBook_Click(object sender, EventArgs e)
         {
             if (total == 0m)
@@ -116,7 +162,6 @@ namespace TotalHealth
                 int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
                 int premium = chkPremium.Checked ? 1 : 0;
 
-
                 string sql = $"INSERT INTO Appointment VALUES ('{start}', '{end}', {therapistID}, " +
                     $"'{patientNumber}', {premium}, {total})";
                 int rowsAffected = SendData(sql);
@@ -124,6 +169,7 @@ namespace TotalHealth
                 {
                     MessageBox.Show("Appointment has been successfully booked.");
                 }
+
                 sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
                 bool loyalty = (bool)GetScalarValue(sql);
                 if (!loyalty)
@@ -140,35 +186,6 @@ namespace TotalHealth
 
         }
 
-        private void btnCalculateCharge_Click(object sender, EventArgs e)
-        {
-            if (ValidateChildren(ValidationConstraints.Enabled))
-            {
-                int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
-
-                string sql = $"SELECT HourlyRate FROM Therapist WHERE TherapistId = {therapistID}";
-
-                decimal rate = Convert.ToDecimal(GetScalarValue(sql));
-
-                string date = dtpFrom.Value.ToShortDateString();
-                string startDateTime = date + " " + cboStartTime.SelectedItem.ToString();
-                string endDateTime = date + " " + cboEndTime.SelectedItem.ToString();
-                start = Convert.ToDateTime(startDateTime);
-                end = Convert.ToDateTime(endDateTime);
-                TimeSpan hours = end - start;
-                decimal length = Convert.ToDecimal(hours.TotalHours);
-                decimal premiumAdd = 0;
-                if (chkPremium.Checked)
-                {
-                    sql = $"SELECT PremiumAddOnCost FROM Therapist WHERE TherapistId = {therapistID}";
-                    premiumAdd = Convert.ToDecimal(GetScalarValue(sql));
-                }
-                total = (rate * length) + premiumAdd;
-
-                lblTotalCharge.Text = total.ToString("c");
-
-            }
-        }
 
 
         private void cboStartTime_SelectionChangeCommitted(object sender, EventArgs e)
@@ -293,6 +310,16 @@ namespace TotalHealth
         private void Appointment_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = false;
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            
+            lblTotalCharge.Text = string.Empty;
+            cboStartTime.SelectedIndex = 0;
+            cboEndTime.Items.Clear();
+            cboPatient.SelectedIndex = 0;
+            cboPractitioner.SelectedIndex = 0;
         }
     }
 }

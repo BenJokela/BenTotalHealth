@@ -526,6 +526,7 @@ namespace TotalHealth
             }
             errorProvider1.Clear();
             if (addMode) { ClearForm(); }
+            else 
             ReadyMode();
         }
 
