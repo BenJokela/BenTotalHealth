@@ -40,6 +40,8 @@ namespace TotalHealth
             //{
             //    this.Close();
             //}
+            tss1.Text = string.Empty;
+            tss2.Text = "Ready";
         }
 
         private void patientToolStripMenuItem_Click(object sender, EventArgs e)

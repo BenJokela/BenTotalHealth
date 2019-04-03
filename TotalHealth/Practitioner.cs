@@ -60,13 +60,13 @@ namespace TotalHealth
         }
         private void EditMode()
         {
-            myParent.tss2.Text = "edit in progress...";
+            myParent.tss2.Text = "Practitioner edit in progress...";
             ToggleButtonState(true);
             addMode = false;
         }
         private void AddMode()
         {
-            myParent.tss2.Text = "add new record in progress...";
+            myParent.tss2.Text = "add new practitioner record in progress...";
             ToggleButtonState(true);
             addMode = true;
             ClearForm();
@@ -134,6 +134,22 @@ namespace TotalHealth
                 rowsAffected = cmd.ExecuteNonQuery();
             }
             return rowsAffected;
+        }
+        private object GetScalarValue(string sql)
+        {
+            SqlConnection conn = new SqlConnection(Properties.Settings.Default.cnnString);
+            object retVal;
+            using (conn)
+            {
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                conn.Open();
+                retVal = cmd.ExecuteScalar();
+                conn.Close();
+            }
+
+            return retVal;
+
+
         }
 
         private void btnNext_Click(object sender, EventArgs e)
@@ -255,20 +271,31 @@ namespace TotalHealth
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
-            MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.No)
+            string sql = $"SELECT COUNT (*) FROM Appointment WHERE TherapistID = {dtPractitioners.Rows[currentRecord]["TherapistId"]}";
+            int appointmentCount = Convert.ToInt16(GetScalarValue(sql));
+            if (appointmentCount <= 0)
             {
+                MessageBox.Show("You may not delete this record as this practitioner has appointments booked.");
                 ReadyMode();
             }
-            if (result == DialogResult.Yes)
+            else
             {
-                string sql = $"DELETE FROM Therapist WHERE TherapistId={dtPractitioners.Rows[currentRecord]["TherapistId"]}";
-                int rowsAffected = SendData(sql);
-                if (rowsAffected == 1)
+
+                DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No)
                 {
-                    MessageBox.Show("Record successfully deleted");
-                    FillTherapists();
+                    ReadyMode();
+                }
+                else if (result == DialogResult.Yes)
+                {
+                    sql = $"DELETE FROM Therapist WHERE TherapistId={dtPractitioners.Rows[currentRecord]["TherapistId"]}";
+                    int rowsAffected = SendData(sql);
+                    if (rowsAffected == 1)
+                    {
+                        MessageBox.Show("Record successfully deleted");
+                        FillTherapists();
+                    }
                 }
             }
 
