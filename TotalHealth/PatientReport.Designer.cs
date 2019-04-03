@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cboTherapistType = new System.Windows.Forms.ComboBox();
             this.lblTherapistType = new System.Windows.Forms.Label();
             this.lblPatientReport = new System.Windows.Forms.Label();
             this.dgvPatientCharges = new System.Windows.Forms.DataGridView();
+            this.lstTherapistType = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPatientCharges)).BeginInit();
             this.SuspendLayout();
-            // 
-            // cboTherapistType
-            // 
-            this.cboTherapistType.FormattingEnabled = true;
-            this.cboTherapistType.Location = new System.Drawing.Point(210, 92);
-            this.cboTherapistType.Name = "cboTherapistType";
-            this.cboTherapistType.Size = new System.Drawing.Size(165, 21);
-            this.cboTherapistType.TabIndex = 0;
-            this.cboTherapistType.SelectionChangeCommitted += new System.EventHandler(this.cboTherapistType_SelectionChangeCommitted);
             // 
             // lblTherapistType
             // 
@@ -66,20 +57,29 @@
             // dgvPatientCharges
             // 
             this.dgvPatientCharges.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvPatientCharges.Location = new System.Drawing.Point(58, 143);
+            this.dgvPatientCharges.Location = new System.Drawing.Point(68, 170);
             this.dgvPatientCharges.Name = "dgvPatientCharges";
-            this.dgvPatientCharges.Size = new System.Drawing.Size(683, 295);
+            this.dgvPatientCharges.Size = new System.Drawing.Size(683, 278);
             this.dgvPatientCharges.TabIndex = 3;
+            // 
+            // lstTherapistType
+            // 
+            this.lstTherapistType.FormattingEnabled = true;
+            this.lstTherapistType.Location = new System.Drawing.Point(260, 95);
+            this.lstTherapistType.Name = "lstTherapistType";
+            this.lstTherapistType.Size = new System.Drawing.Size(290, 69);
+            this.lstTherapistType.TabIndex = 4;
+            this.lstTherapistType.SelectedIndexChanged += new System.EventHandler(this.lstTherapistType_SelectedIndexChanged);
             // 
             // PatientReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(794, 459);
+            this.Controls.Add(this.lstTherapistType);
             this.Controls.Add(this.dgvPatientCharges);
             this.Controls.Add(this.lblPatientReport);
             this.Controls.Add(this.lblTherapistType);
-            this.Controls.Add(this.cboTherapistType);
             this.Name = "PatientReport";
             this.Text = "PatientReport";
             this.Load += new System.EventHandler(this.PatientReport_Load);
@@ -90,10 +90,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ComboBox cboTherapistType;
         private System.Windows.Forms.Label lblTherapistType;
         private System.Windows.Forms.Label lblPatientReport;
         private System.Windows.Forms.DataGridView dgvPatientCharges;
+        private System.Windows.Forms.ListBox lstTherapistType;
     }
 }

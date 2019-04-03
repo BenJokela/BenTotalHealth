@@ -139,7 +139,7 @@ namespace TotalHealth
                     sql = $"SELECT PremiumAddOnCost FROM Therapist WHERE TherapistId = {therapistID}";
                     premiumAdd = Convert.ToDecimal(GetScalarValue(sql));
                 }
-                    //check if patient has loyalty status
+                //check if patient has loyalty status
                 sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
                 bool loyalty = (bool)GetScalarValue(sql);
                 if (loyalty) { premiumAdd *= .65m; }
@@ -150,38 +150,54 @@ namespace TotalHealth
 
             }
         }
+
         private void btnBook_Click(object sender, EventArgs e)
         {
-            if (total == 0m)
+            //check if patient has 2 or more future appts with other therapists.
+            string sql = $"SELECT COUNT (DISTINCT TherapistID) FROM Appointment WHERE EXISTS" +
+                $"(SELECT * FROM Appointment WHERE PatientNumber =  '{cboPatient.SelectedValue}' AND StartDate > GETDATE() " +
+                $"AND TherapistID <> {Convert.ToInt16(cboPractitioner.SelectedValue)})";
+            int therapistCount = Convert.ToInt16(GetScalarValue(sql));
+            //if patient has 2 or less appointments, book appointment
+            if (therapistCount < 2)
             {
-                MessageBox.Show("You must calculate the charge first.");
-            }
-            else
-            {
-                string patientNumber = cboPatient.SelectedValue.ToString();
-                int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
-                int premium = chkPremium.Checked ? 1 : 0;
-
-                string sql = $"INSERT INTO Appointment VALUES ('{start}', '{end}', {therapistID}, " +
-                    $"'{patientNumber}', {premium}, {total})";
-                int rowsAffected = SendData(sql);
-                if (rowsAffected == 1)
+                if (total == 0m)
                 {
-                    MessageBox.Show("Appointment has been successfully booked.");
+                    MessageBox.Show("You must calculate the charge first.");
                 }
 
-                sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
-                bool loyalty = (bool)GetScalarValue(sql);
-                if (!loyalty)
+                else
                 {
-                    sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{patientNumber}'";
-                    int aptCount = Convert.ToInt16(GetScalarValue(sql));
-                    if (aptCount >= 3)
+                    string patientNumber = cboPatient.SelectedValue.ToString();
+                    int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
+                    int premium = chkPremium.Checked ? 1 : 0;
+
+                    sql = $"INSERT INTO Appointment VALUES ('{start}', '{end}', {therapistID}, " +
+                        $"'{patientNumber}', {premium}, {total})";
+                    int rowsAffected = SendData(sql);
+                    if (rowsAffected == 1)
                     {
-                        sql = $"UPDATE Patient SET LoyaltyDiscount = 1 WHERE PatientNumber = '{patientNumber}'";
-                        SendData(sql);
+                        MessageBox.Show("Appointment has been successfully booked.");
+                    }
+                    sql = $"SELECT LoyaltyDiscount FROM Patient WHERE PatientNumber = '{patientNumber}'";
+                    bool loyalty = (bool)GetScalarValue(sql);
+                    if (!loyalty)
+                    {
+                        sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{patientNumber}'";
+                        int aptCount = Convert.ToInt16(GetScalarValue(sql));
+                        if (aptCount >= 3)
+                        {
+                            sql = $"UPDATE Patient SET LoyaltyDiscount = 1 WHERE PatientNumber = '{patientNumber}'";
+                            SendData(sql);
+                        }
                     }
                 }
+
+            }
+            //if patient has more than two appointments
+            else if (therapistCount >= 2)
+            {
+                MessageBox.Show("A patient cannot book more than 2 appointments with any practioner");
             }
 
         }
@@ -289,7 +305,7 @@ namespace TotalHealth
                     e.Cancel = true;
                     msg = "Please select an end time.";
                     ctl.Focus();
-                 }
+                }
             }
             errorProvider1.SetError(ctl, msg);
 
@@ -314,7 +330,7 @@ namespace TotalHealth
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            
+
             lblTotalCharge.Text = string.Empty;
             cboStartTime.SelectedIndex = 0;
             cboEndTime.Items.Clear();

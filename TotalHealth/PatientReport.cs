@@ -27,18 +27,17 @@ namespace TotalHealth
 
         private void PatientReport_Load(object sender, EventArgs e)
         {
+            LoadListbox();
+        }
+
+        private void LoadListbox()
+        {
             string sql = "SELECT * FROM TherapistType";
             DataTable dt = GetData(sql);
 
-            DataRow row = dt.NewRow();
-            row["TherapistTypeId"] = DBNull.Value;
-            row["Name"] = "Choose a therapist type";
-            dt.Rows.InsertAt(row, 0);
-
-
-            cboTherapistType.DataSource = dt;
-            cboTherapistType.ValueMember = "TherapistTypeId";
-            cboTherapistType.DisplayMember = "Name";
+            lstTherapistType.ValueMember = "TherapistTypeId";
+            lstTherapistType.DisplayMember = "Name";
+            lstTherapistType.DataSource = dt;
         }
         private DataTable GetData(string sqlStatement)
         {
@@ -60,18 +59,20 @@ namespace TotalHealth
             return dt;
         }
 
-        private void cboTherapistType_SelectionChangeCommitted(object sender, EventArgs e)
+
+
+        private void lstTherapistType_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            if (cboTherapistType.SelectedIndex != 0)
+            if (lstTherapistType.SelectedIndex != -1)
             {
-
+                //dgvPatientCharges.DataSource = null;
+                //dgvPatientCharges.Rows.Clear();
+                //dgvPatientCharges.Refresh();
                 string sql = $"SELECT P.PatientNumber, P.FirstName, P.LastName, SUM(TotalCharge) AS TotalCharges " +
                     $"FROM Patient P JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON A.TherapistID = T.TherapistID " +
-                    $"WHERE T.TherapistType = {cboTherapistType.SelectedValue} GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
+                    $"WHERE T.TherapistType = {lstTherapistType.SelectedValue} GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
 
                 DataTable dtPatientCharges = GetData(sql);
-
 
                 dgvPatientCharges.DataSource = dtPatientCharges;
 

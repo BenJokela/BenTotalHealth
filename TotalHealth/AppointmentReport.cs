@@ -65,8 +65,6 @@ namespace TotalHealth
             dgvAppointments.Columns[3].HeaderCell.Value = "Therapist Last Name";
             dgvAppointments.Columns[4].HeaderCell.Value = "Total Charge";
             dgvAppointments.Columns[4].DefaultCellStyle.Format = "c";
-
-
         }
     }
 }
