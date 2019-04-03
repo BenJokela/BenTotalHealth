@@ -16,14 +16,15 @@ namespace TotalHealth
     public partial class Patient : Form
     {
         private Main myParent;
-        Int64 phoneNum;
-        DataTable dtPatient = new DataTable();
-        bool addMode = false;
         public Patient(Main p)
         {
             InitializeComponent();
             myParent = p;
         }
+
+        Int64 phoneNum;
+        DataTable dtPatient = new DataTable();
+        bool addMode = false;
         private void Patient_Load(object sender, EventArgs e)
         {
             myParent.tss1.Text = string.Empty;
@@ -32,7 +33,7 @@ namespace TotalHealth
             ReadyMode();
             btnDelete.Enabled = false;
         }
-        #region startup
+        #region Startup
         private void FillLastNames()
         {
             DataTable dtLastNames = GetData($"SELECT PatientNumber, LastName FROM Patient ORDER BY LastName");
@@ -63,7 +64,7 @@ namespace TotalHealth
         }
         #endregion
 
-        #region modes and form
+        #region Modes and Form
         private void ReadyMode()
         {
             myParent.tss2.Text = "Ready";
@@ -135,7 +136,7 @@ namespace TotalHealth
 
         #endregion
 
-        #region RandomPatientNumber
+        #region Random Patient Number
 
         private void GenerateRandomPatientNumber()
         {
@@ -173,7 +174,7 @@ namespace TotalHealth
         }
         #endregion
 
-        #region button clicks and actions
+        #region Button Clicks and User Actions
         private void btnSearch_Click(object sender, EventArgs e)
         {
             if (cboSearchBy.SelectedIndex == -1)
