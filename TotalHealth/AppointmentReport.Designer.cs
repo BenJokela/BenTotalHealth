@@ -35,6 +35,7 @@
             this.lblDateFrom = new System.Windows.Forms.Label();
             this.lblDateTo = new System.Windows.Forms.Label();
             this.btnGenerateReport = new System.Windows.Forms.Button();
+            this.chkLoyalty = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAppointments)).BeginInit();
             this.SuspendLayout();
             // 
@@ -68,7 +69,7 @@
             this.lblDateFrom.AutoSize = true;
             this.lblDateFrom.Location = new System.Drawing.Point(12, 25);
             this.lblDateFrom.Name = "lblDateFrom";
-            this.lblDateFrom.Size = new System.Drawing.Size(198, 15);
+            this.lblDateFrom.Size = new System.Drawing.Size(170, 13);
             this.lblDateFrom.TabIndex = 3;
             this.lblDateFrom.Text = "See all appointments booked from:";
             // 
@@ -77,7 +78,7 @@
             this.lblDateTo.AutoSize = true;
             this.lblDateTo.Location = new System.Drawing.Point(456, 25);
             this.lblDateTo.Name = "lblDateTo";
-            this.lblDateTo.Size = new System.Drawing.Size(20, 15);
+            this.lblDateTo.Size = new System.Drawing.Size(19, 13);
             this.lblDateTo.TabIndex = 4;
             this.lblDateTo.Text = "to:";
             // 
@@ -91,11 +92,22 @@
             this.btnGenerateReport.UseVisualStyleBackColor = true;
             this.btnGenerateReport.Click += new System.EventHandler(this.btnGenerateReport_Click);
             // 
+            // chkLoyalty
+            // 
+            this.chkLoyalty.AutoSize = true;
+            this.chkLoyalty.Location = new System.Drawing.Point(226, 68);
+            this.chkLoyalty.Name = "chkLoyalty";
+            this.chkLoyalty.Size = new System.Drawing.Size(207, 17);
+            this.chkLoyalty.TabIndex = 6;
+            this.chkLoyalty.Text = "Filter only patients with loyalty discount";
+            this.chkLoyalty.UseVisualStyleBackColor = true;
+            // 
             // AppointmentReport
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(919, 555);
+            this.Controls.Add(this.chkLoyalty);
             this.Controls.Add(this.btnGenerateReport);
             this.Controls.Add(this.lblDateTo);
             this.Controls.Add(this.lblDateFrom);
@@ -118,5 +130,6 @@
         private System.Windows.Forms.Label lblDateFrom;
         private System.Windows.Forms.Label lblDateTo;
         private System.Windows.Forms.Button btnGenerateReport;
+        private System.Windows.Forms.CheckBox chkLoyalty;
     }
 }

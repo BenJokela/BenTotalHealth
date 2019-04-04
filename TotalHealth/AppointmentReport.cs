@@ -50,9 +50,14 @@ namespace TotalHealth
             DateTime dateFrom = dtpFrom.Value;
             DateTime dateTo = dtpTo.Value.AddDays(1);
 
-            string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge FROM Patient P" +
-                $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
-                $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
+            string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, P.LoyaltyDiscount FROM Patient P" +
+                                   $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
+                                   $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
+
+            if (chkLoyalty.Checked == true)
+            {
+                sql = sql + $" AND P.LoyaltyDiscount = '{chkLoyalty.Checked}'";
+            }
 
             DataTable dtAppointments = GetData(sql);
             dgvAppointments.DataSource = dtAppointments;
