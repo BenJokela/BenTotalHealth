@@ -49,13 +49,6 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.txtLastName = new System.Windows.Forms.TextBox();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.cboSearchBy = new System.Windows.Forms.ComboBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.grpSearch = new System.Windows.Forms.GroupBox();
-            this.cboLastNames = new System.Windows.Forms.ComboBox();
-            this.lblOrSelect = new System.Windows.Forms.Label();
             this.lblFirst = new System.Windows.Forms.Label();
             this.lblLast = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
@@ -65,7 +58,8 @@
             this.lblPatientNumber = new System.Windows.Forms.Label();
             this.btnEdit = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
-            this.grpSearch.SuspendLayout();
+            this.lblSelect = new System.Windows.Forms.Label();
+            this.cboLastNames = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.grpPatientInfo.SuspendLayout();
             this.SuspendLayout();
@@ -241,7 +235,7 @@
             // 
             this.btnNew.AutoSize = true;
             this.btnNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNew.Location = new System.Drawing.Point(612, 247);
+            this.btnNew.Location = new System.Drawing.Point(612, 136);
             this.btnNew.Name = "btnNew";
             this.btnNew.Size = new System.Drawing.Size(79, 34);
             this.btnNew.TabIndex = 17;
@@ -253,7 +247,7 @@
             // 
             this.btnSave.AutoSize = true;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSave.Location = new System.Drawing.Point(612, 397);
+            this.btnSave.Location = new System.Drawing.Point(612, 367);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(79, 34);
             this.btnSave.TabIndex = 18;
@@ -265,7 +259,7 @@
             // 
             this.btnCancel.AutoSize = true;
             this.btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(612, 447);
+            this.btnCancel.Location = new System.Drawing.Point(612, 444);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(79, 34);
             this.btnCancel.TabIndex = 19;
@@ -283,77 +277,6 @@
             this.txtLastName.TabIndex = 2;
             this.txtLastName.TextChanged += new System.EventHandler(this.txtFirstName_TextChanged);
             this.txtLastName.Validating += new System.ComponentModel.CancelEventHandler(this.TextBoxValidating);
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.18868F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSearch.Location = new System.Drawing.Point(16, 34);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(86, 20);
-            this.lblSearch.TabIndex = 22;
-            this.lblSearch.Text = "Search By:";
-            // 
-            // cboSearchBy
-            // 
-            this.cboSearchBy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboSearchBy.FormattingEnabled = true;
-            this.cboSearchBy.Location = new System.Drawing.Point(115, 31);
-            this.cboSearchBy.Name = "cboSearchBy";
-            this.cboSearchBy.Size = new System.Drawing.Size(143, 30);
-            this.cboSearchBy.TabIndex = 0;
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSearch.Location = new System.Drawing.Point(99, 117);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(95, 35);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.Location = new System.Drawing.Point(47, 71);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(211, 28);
-            this.txtSearch.TabIndex = 1;
-            // 
-            // grpSearch
-            // 
-            this.grpSearch.Controls.Add(this.cboLastNames);
-            this.grpSearch.Controls.Add(this.lblOrSelect);
-            this.grpSearch.Controls.Add(this.btnSearch);
-            this.grpSearch.Controls.Add(this.lblSearch);
-            this.grpSearch.Controls.Add(this.cboSearchBy);
-            this.grpSearch.Controls.Add(this.txtSearch);
-            this.grpSearch.Location = new System.Drawing.Point(513, 22);
-            this.grpSearch.Name = "grpSearch";
-            this.grpSearch.Size = new System.Drawing.Size(310, 219);
-            this.grpSearch.TabIndex = 26;
-            this.grpSearch.TabStop = false;
-            this.grpSearch.Text = "Search Patient";
-            // 
-            // cboLastNames
-            // 
-            this.cboLastNames.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboLastNames.FormattingEnabled = true;
-            this.cboLastNames.Location = new System.Drawing.Point(115, 170);
-            this.cboLastNames.Name = "cboLastNames";
-            this.cboLastNames.Size = new System.Drawing.Size(174, 30);
-            this.cboLastNames.TabIndex = 24;
-            this.cboLastNames.SelectionChangeCommitted += new System.EventHandler(this.cboLastNames_SelectionChangeCommitted);
-            // 
-            // lblOrSelect
-            // 
-            this.lblOrSelect.Location = new System.Drawing.Point(27, 166);
-            this.lblOrSelect.Name = "lblOrSelect";
-            this.lblOrSelect.Size = new System.Drawing.Size(79, 46);
-            this.lblOrSelect.TabIndex = 23;
-            this.lblOrSelect.Text = "or select by last name:";
             // 
             // lblFirst
             // 
@@ -438,7 +361,7 @@
             // 
             this.btnEdit.AutoSize = true;
             this.btnEdit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEdit.Location = new System.Drawing.Point(612, 297);
+            this.btnEdit.Location = new System.Drawing.Point(612, 213);
             this.btnEdit.Name = "btnEdit";
             this.btnEdit.Size = new System.Drawing.Size(79, 34);
             this.btnEdit.TabIndex = 31;
@@ -450,13 +373,31 @@
             // 
             this.btnDelete.AutoSize = true;
             this.btnDelete.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(612, 347);
+            this.btnDelete.Location = new System.Drawing.Point(612, 290);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(79, 34);
             this.btnDelete.TabIndex = 32;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // lblSelect
+            // 
+            this.lblSelect.Location = new System.Drawing.Point(547, 45);
+            this.lblSelect.Name = "lblSelect";
+            this.lblSelect.Size = new System.Drawing.Size(70, 46);
+            this.lblSelect.TabIndex = 23;
+            this.lblSelect.Text = "Select by last name:";
+            // 
+            // cboLastNames
+            // 
+            this.cboLastNames.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.22642F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboLastNames.FormattingEnabled = true;
+            this.cboLastNames.Location = new System.Drawing.Point(632, 45);
+            this.cboLastNames.Name = "cboLastNames";
+            this.cboLastNames.Size = new System.Drawing.Size(174, 30);
+            this.cboLastNames.TabIndex = 24;
+            this.cboLastNames.SelectionChangeCommitted += new System.EventHandler(this.cboLastNames_SelectionChangeCommitted);
             // 
             // Patient
             // 
@@ -465,11 +406,12 @@
             this.AutoSize = true;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(946, 759);
+            this.Controls.Add(this.lblSelect);
+            this.Controls.Add(this.cboLastNames);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.lblPatientNumber);
             this.Controls.Add(this.grpPatientInfo);
-            this.Controls.Add(this.grpSearch);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnNew);
@@ -484,8 +426,6 @@
             this.Text = "Patient";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Patient_FormClosing);
             this.Load += new System.EventHandler(this.Patient_Load);
-            this.grpSearch.ResumeLayout(false);
-            this.grpSearch.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.grpPatientInfo.ResumeLayout(false);
             this.grpPatientInfo.PerformLayout();
@@ -516,11 +456,6 @@
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TextBox txtLastName;
-        private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.ComboBox cboSearchBy;
-        private System.Windows.Forms.Button btnSearch;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.GroupBox grpSearch;
         private System.Windows.Forms.Label lblFirst;
         private System.Windows.Forms.Label lblLast;
         private System.Windows.Forms.ErrorProvider errorProvider1;
@@ -529,8 +464,8 @@
         private System.Windows.Forms.TextBox txtPatientNumber;
         private System.Windows.Forms.CheckBox chkLoyalty;
         private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.ComboBox cboLastNames;
-        private System.Windows.Forms.Label lblOrSelect;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Label lblSelect;
+        private System.Windows.Forms.ComboBox cboLastNames;
     }
 }

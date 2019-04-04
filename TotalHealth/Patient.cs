@@ -29,17 +29,25 @@ namespace TotalHealth
         {
             myParent.tss1.Text = string.Empty;
             FillProvinces();
-            FillSearchBy();
             ReadyMode();
+            FillLastNames();
             btnDelete.Enabled = false;
         }
         #region Startup
         private void FillLastNames()
         {
             DataTable dtLastNames = GetData($"SELECT PatientNumber, LastName FROM Patient ORDER BY LastName");
-            cboLastNames.DataSource = dtLastNames;
+
             cboLastNames.DisplayMember = "LastName";
             cboLastNames.ValueMember = "PatientNumber";
+
+            DataRow row = dtLastNames.NewRow();
+            dtLastNames.Columns["PatientNumber"].AllowDBNull = true;
+            row["PatientNumber"] = DBNull.Value;
+            row["LastName"] = "Choose a Patient";
+            dtLastNames.Rows.InsertAt(row, 0);
+
+            cboLastNames.DataSource = dtLastNames;
         }
         private void FillProvinces()
         {
@@ -57,11 +65,6 @@ namespace TotalHealth
             cboProv.Items.Add("SK");
             cboProv.Items.Add("YT");
         }
-        private void FillSearchBy()
-        {
-            cboSearchBy.Items.Add("FirstName");
-            cboSearchBy.Items.Add("LastName");
-        }
         #endregion
 
         #region Modes and Form
@@ -69,12 +72,14 @@ namespace TotalHealth
         {
             myParent.tss2.Text = "Ready";
             ToggleButtonState(false);
-            if (txtFirstName.Text == string.Empty){btnDelete.Enabled = false;}
+            if (addMode) { btnDelete.Enabled = false; }
+            if(txtPatientNumber.Text == string.Empty){ btnEdit.Enabled = false; }
             else { btnDelete.Enabled = true; }
             addMode = false;
             grpPatientInfo.Enabled = false;
-            grpSearch.Enabled = true;
-            FillLastNames();
+            cboLastNames.Enabled = true;
+            //?????????
+            //FillLastNames();
         }
         private void EditMode()
         {
@@ -101,7 +106,7 @@ namespace TotalHealth
             btnSave.Enabled = state;
             btnNew.Enabled = !state;
             btnEdit.Enabled = !state;
-            grpSearch.Enabled = !state;
+            cboLastNames.Enabled = !state;
         }
         private void ClearForm()
         {
@@ -118,20 +123,24 @@ namespace TotalHealth
         }
         private void PopulateForm()
         {
-            txtPatientNumber.Text = dtPatient.Rows[0]["PatientNumber"].ToString();
-            txtFirstName.Text = dtPatient.Rows[0]["FirstName"].ToString();
-            txtLastName.Text = dtPatient.Rows[0]["LastName"].ToString();
-            txtAddress.Text = dtPatient.Rows[0]["StreetAddress"].ToString();
-            txtCity.Text = dtPatient.Rows[0]["City"].ToString();
-            cboProv.SelectedItem = dtPatient.Rows[0]["Province"].ToString();
-            txtPostCode.Text = dtPatient.Rows[0]["PostalCode"].ToString();
-            Int64 phone = Convert.ToInt64(dtPatient.Rows[0]["Phone"]);
-            string phoneDisplay = phone.ToString();
-            phoneDisplay = phoneDisplay.Substring(0, 3) + "-" + phoneDisplay.Substring(3, 3) + "-" + phoneDisplay.Substring(6, 4);
-            txtPhone.Text = phoneDisplay;
-            txtEmail.Text = dtPatient.Rows[0]["Email"].ToString();
-            chkLoyalty.Checked = (bool)dtPatient.Rows[0]["LoyaltyDiscount"];
-            ReadyMode();
+            if (cboLastNames.SelectedIndex != 0)
+            {
+                txtPatientNumber.Text = dtPatient.Rows[0]["PatientNumber"].ToString();
+                txtFirstName.Text = dtPatient.Rows[0]["FirstName"].ToString();
+                txtLastName.Text = dtPatient.Rows[0]["LastName"].ToString();
+                txtAddress.Text = dtPatient.Rows[0]["StreetAddress"].ToString();
+                txtCity.Text = dtPatient.Rows[0]["City"].ToString();
+                cboProv.SelectedItem = dtPatient.Rows[0]["Province"].ToString();
+                txtPostCode.Text = dtPatient.Rows[0]["PostalCode"].ToString();
+                Int64 phone = Convert.ToInt64(dtPatient.Rows[0]["Phone"]);
+                string phoneDisplay = phone.ToString();
+                phoneDisplay = phoneDisplay.Substring(0, 3) + "-" + phoneDisplay.Substring(3, 3) + "-" + phoneDisplay.Substring(6, 4);
+                txtPhone.Text = phoneDisplay;
+                txtEmail.Text = dtPatient.Rows[0]["Email"].ToString();
+                chkLoyalty.Checked = (bool)dtPatient.Rows[0]["LoyaltyDiscount"];
+                ReadyMode();
+            }
+            else { ClearForm(); }
         }
 
         #endregion
@@ -175,36 +184,6 @@ namespace TotalHealth
         #endregion
 
         #region Button Clicks and User Actions
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            if (cboSearchBy.SelectedIndex == -1)
-            {
-                MessageBox.Show("You must select FirstName or LastName to search");
-                cboSearchBy.Focus();
-            }
-            else
-            {
-                string searchBy = cboSearchBy.SelectedItem.ToString();
-                string searchObject = txtSearch.Text.ToString();
-                if (searchObject != string.Empty)
-                {
-                    string sql = $"SELECT * FROM Patient WHERE {searchBy} = '{searchObject}'";
-                    dtPatient = GetData(sql);
-                    if (dtPatient.Rows.Count == 0)
-                    {
-                        MessageBox.Show("No results found for that name.");
-                        txtSearch.Focus();
-                        txtSearch.SelectAll();
-                    }
-                    else { PopulateForm(); }
-                }
-                else
-                {
-                    MessageBox.Show("You must enter something to search for");
-                    txtSearch.Focus();
-                }
-            }
-        }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -322,9 +301,18 @@ namespace TotalHealth
             {
                 ClearForm();
                 ReadyMode();
+                FillLastNames();
+                btnEdit.Enabled = false;
+            }
+            else if (txtPatientNumber.Text == string.Empty)
+            {
+                btnDelete.Enabled = false;
+                cboLastNames.Enabled = true;
             }
             else
-                ReadyMode();
+                //TROUBLE HERE IF EDITING, CAN CRASH
+                PopulateForm();
+                //ReadyMode();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -343,7 +331,7 @@ namespace TotalHealth
         {
             dtPatient = GetData($"SELECT * FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'");
             PopulateForm();
-            ReadyMode();
+            if(cboLastNames.SelectedIndex == 0) { btnDelete.Enabled = false; }
         }
         #endregion
 
@@ -589,9 +577,9 @@ namespace TotalHealth
         {
             e.Cancel = false;
         }
+
+
         #endregion
-
-
 
     }
 }
