@@ -23,7 +23,6 @@ namespace TotalHealth
         }
 
         Int64 phoneNum;
-        DataTable dtPatient = new DataTable();
         bool addMode = false;
         private void Patient_Load(object sender, EventArgs e)
         {
@@ -125,6 +124,8 @@ namespace TotalHealth
         {
             if (cboLastNames.SelectedIndex != 0)
             {
+                DataTable dtPatient = GetData($"SELECT * FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'");
+
                 txtPatientNumber.Text = dtPatient.Rows[0]["PatientNumber"].ToString();
                 txtFirstName.Text = dtPatient.Rows[0]["FirstName"].ToString();
                 txtLastName.Text = dtPatient.Rows[0]["LastName"].ToString();
@@ -256,8 +257,8 @@ namespace TotalHealth
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            string patientNumber = dtPatient.Rows[0]["PatientNumber"].ToString();
-            string sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{patientNumber}'";
+            //string patientNumber = cboLastNames.SelectedValue;
+            string sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
             int aptCount = Convert.ToInt16(GetScalarValue(sql));
             if (aptCount > 0)
             {
@@ -274,12 +275,13 @@ namespace TotalHealth
                 }
                 else if (result == DialogResult.Yes)
                 {
-                    sql = $"DELETE FROM Patient WHERE PatientNumber = '{patientNumber}'";
+                    sql = $"DELETE FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
                     int rowsAffected = SendData(sql);
                     if (rowsAffected == 1)
                     {
                         MessageBox.Show("Record successfully deleted");
                         ReadyMode();
+                        FillLastNames();
                     }
                 }
             }
@@ -288,18 +290,23 @@ namespace TotalHealth
         {
             AddMode();
         }
-
-
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void ClearErrors()
         {
             foreach (Control ctl in grpPatientInfo.Controls)
             {
                 errorProvider1.SetError(ctl, string.Empty);
             }
             errorProvider1.Clear();
+
+        }
+
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
             if (addMode)
             {
                 ClearForm();
+                ClearErrors();
                 ReadyMode();
                 FillLastNames();
                 btnEdit.Enabled = false;
@@ -310,9 +317,7 @@ namespace TotalHealth
                 cboLastNames.Enabled = true;
             }
             else
-                //TROUBLE HERE IF EDITING, CAN CRASH
                 PopulateForm();
-                //ReadyMode();
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -329,7 +334,7 @@ namespace TotalHealth
 
         private void cboLastNames_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            dtPatient = GetData($"SELECT * FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'");
+            ClearErrors();
             PopulateForm();
             if(cboLastNames.SelectedIndex == 0) { btnDelete.Enabled = false; }
         }
