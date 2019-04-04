@@ -68,6 +68,7 @@
             this.cboPractitioner.Name = "cboPractitioner";
             this.cboPractitioner.Size = new System.Drawing.Size(121, 30);
             this.cboPractitioner.TabIndex = 1;
+            this.cboPractitioner.SelectedIndexChanged += new System.EventHandler(this.cboPractitioner_SelectedIndexChanged);
             // 
             // dtpFrom
             // 

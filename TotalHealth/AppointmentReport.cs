@@ -47,10 +47,10 @@ namespace TotalHealth
 
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
-            DateTime dateFrom = dtpFrom.Value;
-            DateTime dateTo = dtpTo.Value.AddDays(1);
+            string dateFrom = dtpFrom.Value.ToShortDateString();
+            string dateTo = dtpTo.Value.AddDays(1).ToShortDateString();
 
-            string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, P.LoyaltyDiscount FROM Patient P" +
+            string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, A.StartDate, P.LoyaltyDiscount FROM Patient P" +
                                    $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
                                    $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
 
@@ -69,6 +69,7 @@ namespace TotalHealth
             dgvAppointments.Columns[2].HeaderCell.Value = "Therapist First Name";
             dgvAppointments.Columns[3].HeaderCell.Value = "Therapist Last Name";
             dgvAppointments.Columns[4].HeaderCell.Value = "Total Charge";
+            dgvAppointments.Columns[5].HeaderCell.Value = "Appointment Date";
             dgvAppointments.Columns[4].DefaultCellStyle.Format = "c";
         }
     }

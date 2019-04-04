@@ -214,8 +214,6 @@ namespace TotalHealth
                         postCode = postCode.Substring(0, 3) + " " + postCode.Substring(3, 3);
                     }
                     string email = txtEmail.Text.Trim();//already validated elsewhere
-                    //loyalty discount
-                    //int countAppts = Convert.ToInt16(GetScalarValue($"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = {patientNumber}"));
 
                     int loyaltyStatus = chkLoyalty.Checked ? 1 : 0;
                     if (addMode)
@@ -257,7 +255,6 @@ namespace TotalHealth
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            //string patientNumber = cboLastNames.SelectedValue;
             string sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
             int aptCount = Convert.ToInt16(GetScalarValue(sql));
             if (aptCount > 0)
@@ -289,15 +286,6 @@ namespace TotalHealth
         private void btnNew_Click(object sender, EventArgs e)
         {
             AddMode();
-        }
-        private void ClearErrors()
-        {
-            foreach (Control ctl in grpPatientInfo.Controls)
-            {
-                errorProvider1.SetError(ctl, string.Empty);
-            }
-            errorProvider1.Clear();
-
         }
 
 
@@ -514,18 +502,14 @@ namespace TotalHealth
             errorProvider1.SetError(ctl, msg);
         }
 
-
-        //private bool IsClean()
-        //{
-        //    foreach (Control ctl in grpPatientInfo.Controls)
-        //    {
-        //        if (errorProvider1.GetError(ctl) != string.Empty)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
+        private void ClearErrors()
+        {
+            foreach (Control ctl in grpPatientInfo.Controls)
+            {
+                errorProvider1.SetError(ctl, string.Empty);
+            }
+            errorProvider1.Clear();
+        }
 
         #endregion
 
