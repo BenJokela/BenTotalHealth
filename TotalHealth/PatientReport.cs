@@ -63,25 +63,35 @@ namespace TotalHealth
 
         private void lstTherapistType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lstTherapistType.SelectedIndex != -1)
+            try
             {
-                string sql = $"SELECT P.PatientNumber, P.FirstName, P.LastName, SUM(TotalCharge) AS TotalCharges " +
-                    $"FROM Patient P JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON A.TherapistID = T.TherapistID " +
-                    $"WHERE T.TherapistType = {lstTherapistType.SelectedValue} GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
+                if (lstTherapistType.SelectedIndex != -1)
+                {
+                    string sql = $"SELECT P.PatientNumber, P.FirstName, P.LastName, SUM(TotalCharge) AS TotalCharges " +
+                        $"FROM Patient P JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON A.TherapistID = T.TherapistID " +
+                        $"WHERE T.TherapistType = {lstTherapistType.SelectedValue} GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
 
-                DataTable dtPatientCharges = GetData(sql);
+                    DataTable dtPatientCharges = GetData(sql);
 
-                dgvPatientCharges.DataSource = dtPatientCharges;
+                    dgvPatientCharges.DataSource = dtPatientCharges;
 
-                dgvPatientCharges.AutoResizeColumns();
-                dgvPatientCharges.ReadOnly = true;
-                dgvPatientCharges.Columns[0].HeaderCell.Value = "Patient Number";
-                dgvPatientCharges.Columns[1].HeaderCell.Value = "Patient First Name";
-                dgvPatientCharges.Columns[2].HeaderCell.Value = "Patient Last Name";
-                dgvPatientCharges.Columns[3].DefaultCellStyle.Format = "c";
+                    dgvPatientCharges.AutoResizeColumns();
+                    dgvPatientCharges.ReadOnly = true;
+                    dgvPatientCharges.Columns[0].HeaderCell.Value = "Patient Number";
+                    dgvPatientCharges.Columns[1].HeaderCell.Value = "Patient First Name";
+                    dgvPatientCharges.Columns[2].HeaderCell.Value = "Patient Last Name";
+                    dgvPatientCharges.Columns[3].DefaultCellStyle.Format = "c";
 
+                }
             }
-
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
     }
 }

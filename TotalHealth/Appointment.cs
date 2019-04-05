@@ -235,6 +235,8 @@ namespace TotalHealth
                     MessageBox.Show("This patient cannot book an appointment because they already have future " +
                         "appointments booked with 2 or more other therapists.");
                 }
+                MessageBox.Show(therapistCount.ToString());
+                therapistCount = 1;
             }
             catch (SqlException sqlex)
             {

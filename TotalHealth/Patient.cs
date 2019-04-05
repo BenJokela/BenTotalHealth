@@ -35,18 +35,29 @@ namespace TotalHealth
         #region Startup
         private void FillLastNames()
         {
-            DataTable dtLastNames = GetData($"SELECT PatientNumber, LastName FROM Patient ORDER BY LastName");
+            try
+            {
+                DataTable dtLastNames = GetData($"SELECT PatientNumber, LastName FROM Patient ORDER BY LastName");
 
-            cboLastNames.DisplayMember = "LastName";
-            cboLastNames.ValueMember = "PatientNumber";
+                cboLastNames.DisplayMember = "LastName";
+                cboLastNames.ValueMember = "PatientNumber";
 
-            DataRow row = dtLastNames.NewRow();
-            dtLastNames.Columns["PatientNumber"].AllowDBNull = true;
-            row["PatientNumber"] = DBNull.Value;
-            row["LastName"] = "Choose a Patient";
-            dtLastNames.Rows.InsertAt(row, 0);
+                DataRow row = dtLastNames.NewRow();
+                dtLastNames.Columns["PatientNumber"].AllowDBNull = true;
+                row["PatientNumber"] = DBNull.Value;
+                row["LastName"] = "Choose a Patient";
+                dtLastNames.Rows.InsertAt(row, 0);
 
-            cboLastNames.DataSource = dtLastNames;
+                cboLastNames.DataSource = dtLastNames;
+            }
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
         private void FillProvinces()
         {
@@ -245,6 +256,10 @@ namespace TotalHealth
                     return;
                 }
             }
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
@@ -255,32 +270,43 @@ namespace TotalHealth
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            string sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
-            int aptCount = Convert.ToInt16(GetScalarValue(sql));
-            if (aptCount > 0)
+            try
             {
-                MessageBox.Show("You may not delete this record as this patient has appointments booked.");
-                ReadyMode();
-            }
-            else
-            {
-                DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                string sql = $"SELECT COUNT(*) FROM Appointment WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
+                int aptCount = Convert.ToInt16(GetScalarValue(sql));
+                if (aptCount > 0)
                 {
+                    MessageBox.Show("You may not delete this record as this patient has appointments booked.");
                     ReadyMode();
                 }
-                else if (result == DialogResult.Yes)
+                else
                 {
-                    sql = $"DELETE FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
-                    int rowsAffected = SendData(sql);
-                    if (rowsAffected == 1)
+                    DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
                     {
-                        MessageBox.Show("Record successfully deleted");
                         ReadyMode();
-                        FillLastNames();
+                    }
+                    else if (result == DialogResult.Yes)
+                    {
+                        sql = $"DELETE FROM Patient WHERE PatientNumber = '{cboLastNames.SelectedValue}'";
+                        int rowsAffected = SendData(sql);
+                        if (rowsAffected == 1)
+                        {
+                            MessageBox.Show("Record successfully deleted");
+                            ReadyMode();
+                            FillLastNames();
+                        }
                     }
                 }
+            }
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
         }
         private void btnNew_Click(object sender, EventArgs e)
@@ -291,21 +317,32 @@ namespace TotalHealth
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            if (addMode)
+            try
             {
-                ClearForm();
-                ClearErrors();
-                ReadyMode();
-                FillLastNames();
-                btnEdit.Enabled = false;
+                if (addMode)
+                {
+                    ClearForm();
+                    ClearErrors();
+                    ReadyMode();
+                    FillLastNames();
+                    btnEdit.Enabled = false;
+                }
+                else if (txtPatientNumber.Text == string.Empty)
+                {
+                    btnDelete.Enabled = false;
+                    cboLastNames.Enabled = true;
+                }
+                else
+                    PopulateForm();
             }
-            else if (txtPatientNumber.Text == string.Empty)
+            catch (SqlException sqlex)
             {
-                btnDelete.Enabled = false;
-                cboLastNames.Enabled = true;
+                MessageBox.Show(sqlex.Message);
             }
-            else
-                PopulateForm();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
         private void btnEdit_Click(object sender, EventArgs e)
@@ -396,110 +433,121 @@ namespace TotalHealth
         }
         private void TextBoxValidating(object sender, CancelEventArgs e)
         {
-            Control ctl = (Control)sender;
-            string msg = string.Empty;
-            e.Cancel = false;
-            if (ctl.Text == string.Empty)
+            try
             {
-                e.Cancel = true;
-                //ctl.Focus();
-                if (ctl.Name == "txtFirstName")
-                {
-                    msg = "Please enter a first name";
-                }
-                //else if (ctl.Name == "txtPatientNumber")
-                //{
-                //    msg = "Please enter a patient number.";
-                //}
-                else if (ctl.Name == "txtLastName")
-                {
-                    msg = "Please enter a last name";
-                }
-                else if (ctl.Name == "txtAddress")
-                {
-                    msg = "Please enter an address";
-                }
-                else if (ctl.Name == "txtCity")
-                {
-                    msg = "Please enter a city";
-                }
-                else if (ctl.Name == "txtPostCode")
-                {
-                    msg = "Please enter a postal code";
-                }
-            }
-            //NOT NECESSARY ANYMORE AS PATIENT NUMBER IS RANDOMLY GENERATED.
-
-            //if (ctl.Name == "txtPatientNumber")
-            //{
-            //    string patientNumber = txtPatientNumber.Text;
-            //    if (patientNumber.Length != 10)
-            //    {
-            //        e.Cancel = true;
-            //        msg = "patientNumber must be exactly 10 characters.";
-            //        txtPatientNumber.Focus();
-            //    }
-            //    string firstFour = patientNumber.Substring(0, 4);
-            //    string lastSix = patientNumber.Substring(4, 6);
-            //    if (!int.TryParse(lastSix, out int x) || (int.TryParse(firstFour, out int y)))
-            //    {
-            //        e.Cancel = true;
-            //        msg = "patientNumber must be in this format: xxxx######";
-            //    }
-            //}
-            if (ctl.Name == "txtPhone")
-            {
-                string phone = txtPhone.Text.Trim();
-                if (phone.Length != 12)
+                Control ctl = (Control)sender;
+                string msg = string.Empty;
+                e.Cancel = false;
+                if (ctl.Text == string.Empty)
                 {
                     e.Cancel = true;
-                    msg = "Please enter phone number in correct format: ###-###-####";
                     //ctl.Focus();
+                    if (ctl.Name == "txtFirstName")
+                    {
+                        msg = "Please enter a first name";
+                    }
+                    //else if (ctl.Name == "txtPatientNumber")
+                    //{
+                    //    msg = "Please enter a patient number.";
+                    //}
+                    else if (ctl.Name == "txtLastName")
+                    {
+                        msg = "Please enter a last name";
+                    }
+                    else if (ctl.Name == "txtAddress")
+                    {
+                        msg = "Please enter an address";
+                    }
+                    else if (ctl.Name == "txtCity")
+                    {
+                        msg = "Please enter a city";
+                    }
+                    else if (ctl.Name == "txtPostCode")
+                    {
+                        msg = "Please enter a postal code";
+                    }
                 }
-                else
-                {
-                    string areaCode = phone.Substring(0, 3);
-                    string next3 = phone.Substring(4, 3);
-                    string last4 = phone.Substring(8, 4);
-                    phone = areaCode + next3 + last4;
+                //NOT NECESSARY ANYMORE AS PATIENT NUMBER IS RANDOMLY GENERATED.
 
-                    if (!Int64.TryParse(phone, out phoneNum))
+                //if (ctl.Name == "txtPatientNumber")
+                //{
+                //    string patientNumber = txtPatientNumber.Text;
+                //    if (patientNumber.Length != 10)
+                //    {
+                //        e.Cancel = true;
+                //        msg = "patientNumber must be exactly 10 characters.";
+                //        txtPatientNumber.Focus();
+                //    }
+                //    string firstFour = patientNumber.Substring(0, 4);
+                //    string lastSix = patientNumber.Substring(4, 6);
+                //    if (!int.TryParse(lastSix, out int x) || (int.TryParse(firstFour, out int y)))
+                //    {
+                //        e.Cancel = true;
+                //        msg = "patientNumber must be in this format: xxxx######";
+                //    }
+                //}
+                if (ctl.Name == "txtPhone")
+                {
+                    string phone = txtPhone.Text.Trim();
+                    if (phone.Length != 12)
                     {
                         e.Cancel = true;
-                        msg = "Please enter a valid phone number";
+                        msg = "Please enter phone number in correct format: ###-###-####";
+                        //ctl.Focus();
+                    }
+                    else
+                    {
+                        string areaCode = phone.Substring(0, 3);
+                        string next3 = phone.Substring(4, 3);
+                        string last4 = phone.Substring(8, 4);
+                        phone = areaCode + next3 + last4;
+
+                        if (!Int64.TryParse(phone, out phoneNum))
+                        {
+                            e.Cancel = true;
+                            msg = "Please enter a valid phone number";
+                            //ctl.Focus();
+                        }
+                    }
+                }
+                if (ctl.Name == "txtPostCode")
+                {
+                    if (!IsPostalCode(txtPostCode.Text.ToString()))
+                    {
+                        e.Cancel = true;
+                        msg = "Please enter a valid postal code.";
                         //ctl.Focus();
                     }
                 }
-            }
-            if (ctl.Name == "txtPostCode")
-            {
-                if (!IsPostalCode(txtPostCode.Text.ToString()))
+                if (ctl.Name == "txtEmail")
                 {
-                    e.Cancel = true;
-                    msg = "Please enter a valid postal code.";
-                    //ctl.Focus();
+                    if (!IsValidEmail(txtEmail.Text.ToString()))
+                    {
+                        e.Cancel = true;
+                        msg = "Please enter a valid email address.";
+                        //ctl.Focus();
+                    }
                 }
-            }
-            if (ctl.Name == "txtEmail")
-            {
-                if (!IsValidEmail(txtEmail.Text.ToString()))
-                {
-                    e.Cancel = true;
-                    msg = "Please enter a valid email address.";
-                    //ctl.Focus();
-                }
-            }
 
-            if (ctl == cboProv)
-            {
-                if (cboProv.SelectedIndex == -1)
+                if (ctl == cboProv)
                 {
-                    e.Cancel = true;
-                    msg = "Please select a province";
-                    //ctl.Focus();
+                    if (cboProv.SelectedIndex == -1)
+                    {
+                        e.Cancel = true;
+                        msg = "Please select a province";
+                        //ctl.Focus();
+                    }
                 }
+                errorProvider1.SetError(ctl, msg);
             }
-            errorProvider1.SetError(ctl, msg);
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
 
         private void ClearErrors()

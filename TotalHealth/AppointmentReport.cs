@@ -44,33 +44,43 @@ namespace TotalHealth
             return dt;
         }
 
-
         private void btnGenerateReport_Click(object sender, EventArgs e)
         {
-            string dateFrom = dtpFrom.Value.ToShortDateString();
-            string dateTo = dtpTo.Value.AddDays(1).ToShortDateString();
-
-            string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, A.StartDate, P.LoyaltyDiscount FROM Patient P" +
-                                   $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
-                                   $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
-
-            if (chkLoyalty.Checked == true)
+            try
             {
-                sql = sql + $" AND P.LoyaltyDiscount = '{chkLoyalty.Checked}'";
+                string dateFrom = dtpFrom.Value.ToShortDateString();
+                string dateTo = dtpTo.Value.AddDays(1).ToShortDateString();
+
+                string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, A.StartDate, P.LoyaltyDiscount FROM Patient P" +
+                                       $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
+                                       $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
+
+                if (chkLoyalty.Checked == true)
+                {
+                    sql = sql + $" AND P.LoyaltyDiscount = '{chkLoyalty.Checked}'";
+                }
+
+                DataTable dtAppointments = GetData(sql);
+                dgvAppointments.DataSource = dtAppointments;
+
+                dgvAppointments.AutoResizeColumns();
+                dgvAppointments.ReadOnly = true;
+                dgvAppointments.Columns[0].HeaderCell.Value = "Patient First Name";
+                dgvAppointments.Columns[1].HeaderCell.Value = "Patient Last Name";
+                dgvAppointments.Columns[2].HeaderCell.Value = "Therapist First Name";
+                dgvAppointments.Columns[3].HeaderCell.Value = "Therapist Last Name";
+                dgvAppointments.Columns[4].HeaderCell.Value = "Total Charge";
+                dgvAppointments.Columns[5].HeaderCell.Value = "Appointment Date";
+                dgvAppointments.Columns[4].DefaultCellStyle.Format = "c";
             }
-
-            DataTable dtAppointments = GetData(sql);
-            dgvAppointments.DataSource = dtAppointments;
-
-            dgvAppointments.AutoResizeColumns();
-            dgvAppointments.ReadOnly = true;
-            dgvAppointments.Columns[0].HeaderCell.Value = "Patient First Name";
-            dgvAppointments.Columns[1].HeaderCell.Value = "Patient Last Name";
-            dgvAppointments.Columns[2].HeaderCell.Value = "Therapist First Name";
-            dgvAppointments.Columns[3].HeaderCell.Value = "Therapist Last Name";
-            dgvAppointments.Columns[4].HeaderCell.Value = "Total Charge";
-            dgvAppointments.Columns[5].HeaderCell.Value = "Appointment Date";
-            dgvAppointments.Columns[4].DefaultCellStyle.Format = "c";
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
         }
     }
 }

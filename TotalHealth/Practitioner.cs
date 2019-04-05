@@ -273,7 +273,7 @@ namespace TotalHealth
         {
             string sql = $"SELECT COUNT (*) FROM Appointment WHERE TherapistID = {dtPractitioners.Rows[currentRecord]["TherapistId"]}";
             int appointmentCount = Convert.ToInt16(GetScalarValue(sql));
-            if (appointmentCount <= 0)
+            if (appointmentCount > 0)
             {
                 MessageBox.Show("You may not delete this record as this practitioner has appointments booked.");
                 ReadyMode();
