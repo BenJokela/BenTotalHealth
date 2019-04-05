@@ -265,8 +265,6 @@ namespace TotalHealth
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
             ReadyMode();
-
-
         }
         private void btnDelete_Click(object sender, EventArgs e)
         {

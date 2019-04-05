@@ -205,6 +205,7 @@ namespace TotalHealth
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            ClearErrors();
             errorProvider1.Clear();
             ReadyMode();
 
@@ -387,6 +388,15 @@ namespace TotalHealth
             }
             errorProvider1.SetError(ctl, msg);
         }
+        private void ClearErrors()
+        {
+            foreach (Control ctl in groupBox1.Controls)
+            {
+                errorProvider1.SetError(ctl, string.Empty);
+            }
+            errorProvider1.Clear();
+        }
+
         #endregion
 
         private void Practitioner_FormClosing(object sender, FormClosingEventArgs e)
