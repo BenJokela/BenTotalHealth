@@ -83,7 +83,7 @@ namespace TotalHealth
             myParent.tss2.Text = "Ready";
             ToggleButtonState(false);
             if (addMode) { btnDelete.Enabled = false; }
-            if(txtPatientNumber.Text == string.Empty){ btnEdit.Enabled = false; }
+            if (txtPatientNumber.Text == string.Empty) { btnEdit.Enabled = false; }
             else { btnDelete.Enabled = true; }
             addMode = false;
             grpPatientInfo.Enabled = false;
@@ -361,7 +361,7 @@ namespace TotalHealth
         {
             ClearErrors();
             PopulateForm();
-            if(cboLastNames.SelectedIndex == 0) { btnDelete.Enabled = false; }
+            if (cboLastNames.SelectedIndex == 0) { btnDelete.Enabled = false; }
         }
         #endregion
 
@@ -441,15 +441,10 @@ namespace TotalHealth
                 if (ctl.Text == string.Empty)
                 {
                     e.Cancel = true;
-                    //ctl.Focus();
                     if (ctl.Name == "txtFirstName")
                     {
                         msg = "Please enter a first name";
                     }
-                    //else if (ctl.Name == "txtPatientNumber")
-                    //{
-                    //    msg = "Please enter a patient number.";
-                    //}
                     else if (ctl.Name == "txtLastName")
                     {
                         msg = "Please enter a last name";
@@ -467,25 +462,6 @@ namespace TotalHealth
                         msg = "Please enter a postal code";
                     }
                 }
-                //NOT NECESSARY ANYMORE AS PATIENT NUMBER IS RANDOMLY GENERATED.
-
-                //if (ctl.Name == "txtPatientNumber")
-                //{
-                //    string patientNumber = txtPatientNumber.Text;
-                //    if (patientNumber.Length != 10)
-                //    {
-                //        e.Cancel = true;
-                //        msg = "patientNumber must be exactly 10 characters.";
-                //        txtPatientNumber.Focus();
-                //    }
-                //    string firstFour = patientNumber.Substring(0, 4);
-                //    string lastSix = patientNumber.Substring(4, 6);
-                //    if (!int.TryParse(lastSix, out int x) || (int.TryParse(firstFour, out int y)))
-                //    {
-                //        e.Cancel = true;
-                //        msg = "patientNumber must be in this format: xxxx######";
-                //    }
-                //}
                 if (ctl.Name == "txtPhone")
                 {
                     string phone = txtPhone.Text.Trim();
@@ -493,7 +469,6 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please enter phone number in correct format: ###-###-####";
-                        //ctl.Focus();
                     }
                     else
                     {
@@ -506,7 +481,6 @@ namespace TotalHealth
                         {
                             e.Cancel = true;
                             msg = "Please enter a valid phone number";
-                            //ctl.Focus();
                         }
                     }
                 }
@@ -516,7 +490,6 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please enter a valid postal code.";
-                        //ctl.Focus();
                     }
                 }
                 if (ctl.Name == "txtEmail")
@@ -525,7 +498,6 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please enter a valid email address.";
-                        //ctl.Focus();
                     }
                 }
 
@@ -535,11 +507,11 @@ namespace TotalHealth
                     {
                         e.Cancel = true;
                         msg = "Please select a province";
-                        //ctl.Focus();
                     }
                 }
                 errorProvider1.SetError(ctl, msg);
             }
+
             catch (SqlException sqlex)
             {
                 MessageBox.Show(sqlex.Message);

@@ -39,7 +39,6 @@
             this.reportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patientChargesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.patientReportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1 = new MdiTabControl.TabControl();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
@@ -84,8 +83,7 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(18, 18);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainToolStripMenuItem,
-            this.reportToolStripMenuItem,
-            this.logOutToolStripMenuItem});
+            this.reportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(946, 27);
@@ -105,21 +103,21 @@
             // appointmentToolStripMenuItem
             // 
             this.appointmentToolStripMenuItem.Name = "appointmentToolStripMenuItem";
-            this.appointmentToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.appointmentToolStripMenuItem.Size = new System.Drawing.Size(194, 24);
             this.appointmentToolStripMenuItem.Text = "&Appointment";
             this.appointmentToolStripMenuItem.Click += new System.EventHandler(this.appointmentToolStripMenuItem_Click);
             // 
             // patientToolStripMenuItem
             // 
             this.patientToolStripMenuItem.Name = "patientToolStripMenuItem";
-            this.patientToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.patientToolStripMenuItem.Size = new System.Drawing.Size(194, 24);
             this.patientToolStripMenuItem.Text = "&Patient";
             this.patientToolStripMenuItem.Click += new System.EventHandler(this.patientToolStripMenuItem_Click);
             // 
             // practitionerToolStripMenuItem
             // 
             this.practitionerToolStripMenuItem.Name = "practitionerToolStripMenuItem";
-            this.practitionerToolStripMenuItem.Size = new System.Drawing.Size(161, 24);
+            this.practitionerToolStripMenuItem.Size = new System.Drawing.Size(194, 24);
             this.practitionerToolStripMenuItem.Text = "Prac&titioner";
             this.practitionerToolStripMenuItem.Click += new System.EventHandler(this.practitionerToolStripMenuItem_Click);
             // 
@@ -145,12 +143,6 @@
             this.patientReportToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
             this.patientReportToolStripMenuItem.Text = "Pa&tient Report";
             this.patientReportToolStripMenuItem.Click += new System.EventHandler(this.patientReportToolStripMenuItem_Click);
-            // 
-            // logOutToolStripMenuItem
-            // 
-            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(69, 23);
-            this.logOutToolStripMenuItem.Text = "&Log out";
             // 
             // tabControl1
             // 
@@ -293,7 +285,6 @@
         private System.Windows.Forms.ToolStripMenuItem practitionerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem patientChargesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private MdiTabControl.TabControl tabControl1;
         internal System.Windows.Forms.StatusStrip statusStrip1;
         internal System.Windows.Forms.ToolStripStatusLabel tss1;

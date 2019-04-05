@@ -139,7 +139,6 @@ namespace TotalHealth
         {
             try
             {
-
                 if (ValidateChildren(ValidationConstraints.Enabled))
                 {
                     int therapistID = Convert.ToInt16(cboPractitioner.SelectedValue);
@@ -169,9 +168,7 @@ namespace TotalHealth
                     if (loyalty) { premiumAdd *= .65m; }
 
                     total = (rate * length) + premiumAdd;
-
                     lblTotalCharge.Text = total.ToString("c");
-
                 }
             }
             catch (SqlException sqlex)

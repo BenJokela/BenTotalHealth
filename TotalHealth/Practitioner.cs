@@ -51,6 +51,8 @@ namespace TotalHealth
             dtPractitioners = GetData(sql);
             ReadyMode();
         }
+        #region Modes and form
+
         private void ReadyMode()
         {
             PopulateForm();
@@ -104,6 +106,10 @@ namespace TotalHealth
 
             myParent.tss1.Text = $"Record {currentRecord + 1} of {dtPractitioners.Rows.Count}";
         }
+
+        #endregion
+
+        #region Database Communication
         private DataTable GetData(string sqlStatement)
         {
             SqlConnection conn = new SqlConnection
@@ -148,9 +154,11 @@ namespace TotalHealth
             }
 
             return retVal;
-
-
         }
+
+        #endregion
+
+        #region Button clicks and user actions
 
         private void btnNext_Click(object sender, EventArgs e)
         {
@@ -207,7 +215,7 @@ namespace TotalHealth
         {
             try
             {
-                if (IsClean())
+                if (ValidateChildren(ValidationConstraints.Enabled))
                 {
                     string firstName = FixApostrophe(txtFirstName.Text.Trim());
                     string lastName = FixApostrophe(txtLastName.Text.Trim());
@@ -271,35 +279,49 @@ namespace TotalHealth
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            string sql = $"SELECT COUNT (*) FROM Appointment WHERE TherapistID = {dtPractitioners.Rows[currentRecord]["TherapistId"]}";
-            int appointmentCount = Convert.ToInt16(GetScalarValue(sql));
-            if (appointmentCount > 0)
+            try
             {
-                MessageBox.Show("You may not delete this record as this practitioner has appointments booked.");
-                ReadyMode();
-            }
-            else
-            {
-
-                DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No)
+                string sql = $"SELECT COUNT (*) FROM Appointment WHERE TherapistID = {dtPractitioners.Rows[currentRecord]["TherapistId"]}";
+                int appointmentCount = Convert.ToInt16(GetScalarValue(sql));
+                if (appointmentCount > 0)
                 {
+                    MessageBox.Show("You may not delete this record as this practitioner has appointments booked.");
                     ReadyMode();
                 }
-                else if (result == DialogResult.Yes)
+                else
                 {
-                    sql = $"DELETE FROM Therapist WHERE TherapistId={dtPractitioners.Rows[currentRecord]["TherapistId"]}";
-                    int rowsAffected = SendData(sql);
-                    if (rowsAffected == 1)
+
+                    DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (result == DialogResult.No)
                     {
-                        MessageBox.Show("Record successfully deleted");
-                        FillTherapists();
+                        ReadyMode();
+                    }
+                    else if (result == DialogResult.Yes)
+                    {
+                        sql = $"DELETE FROM Therapist WHERE TherapistId={dtPractitioners.Rows[currentRecord]["TherapistId"]}";
+                        int rowsAffected = SendData(sql);
+                        if (rowsAffected == 1)
+                        {
+                            MessageBox.Show("Record successfully deleted");
+                            FillTherapists();
+                        }
                     }
                 }
             }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show(sqlEx.Message, sqlEx.GetType().ToString());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, ex.GetType().ToString());
+            }
 
         }
+
+        #endregion  
+
         #region Validation
         private string FixApostrophe(string str)
         {
@@ -333,7 +355,7 @@ namespace TotalHealth
             }
             if (ctl.Name == "txtHourly")
             {
-                if (!decimal.TryParse(txtHourly.Text.Trim(), out decimal hourly) || hourly == 0m) 
+                if (!decimal.TryParse(txtHourly.Text.Trim(), out decimal hourly) || hourly == 0m)
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid number for hourly rate.";
@@ -342,7 +364,7 @@ namespace TotalHealth
             }
             else if (ctl.Name == "txtPremium")
             {
-                if (!decimal.TryParse(txtPremium.Text.Trim(), out decimal premium)|| premium==0m)
+                if (!decimal.TryParse(txtPremium.Text.Trim(), out decimal premium) || premium == 0m)
                 {
                     e.Cancel = true;
                     msg = "Please enter a valid number for premium add-on rate.";
@@ -357,24 +379,13 @@ namespace TotalHealth
             Control ctl = (Control)sender;
             string msg = string.Empty;
             e.Cancel = false;
-            if(cboType.SelectedIndex == 0)
+            if (cboType.SelectedIndex == 0)
             {
                 msg = "Please select a practitioner type.";
                 e.Cancel = true;
                 cboType.Focus();
             }
             errorProvider1.SetError(ctl, msg);
-        }
-        private bool IsClean()
-        {
-            foreach (Control ctl in groupBox1.Controls)
-            {
-                if (errorProvider1.GetError(ctl) != string.Empty)
-                {
-                    return false;
-                }
-            }
-            return true;
         }
         #endregion
 
