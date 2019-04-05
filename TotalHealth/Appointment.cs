@@ -232,8 +232,6 @@ namespace TotalHealth
                     MessageBox.Show("This patient cannot book an appointment because they already have future " +
                         "appointments booked with 2 or more other therapists.");
                 }
-                MessageBox.Show(therapistCount.ToString());
-                therapistCount = 1;
             }
             catch (SqlException sqlex)
             {
@@ -251,8 +249,6 @@ namespace TotalHealth
             cboStartTime.SelectedIndex = -1;
             cboEndTime.Items.Clear();
             cboEndTime.Text = string.Empty;
-            //cboPatient.SelectedIndex = 0;
-            //cboPractitioner.SelectedIndex = 0;
             dtpFrom.ResetText();
         }
         private void cboStartTime_SelectionChangeCommitted(object sender, EventArgs e)

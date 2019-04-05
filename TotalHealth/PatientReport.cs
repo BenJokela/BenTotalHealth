@@ -59,8 +59,6 @@ namespace TotalHealth
             return dt;
         }
 
-
-
         private void lstTherapistType_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -81,7 +79,6 @@ namespace TotalHealth
                     dgvPatientCharges.Columns[1].HeaderCell.Value = "Patient First Name";
                     dgvPatientCharges.Columns[2].HeaderCell.Value = "Patient Last Name";
                     dgvPatientCharges.Columns[3].DefaultCellStyle.Format = "c";
-
                 }
             }
             catch (SqlException sqlex)

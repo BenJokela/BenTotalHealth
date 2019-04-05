@@ -176,7 +176,6 @@ namespace TotalHealth
                 currentRecord--;
                 PopulateForm();
             }
-
         }
 
         private void btnFirst_Click(object sender, EventArgs e)
@@ -195,9 +194,7 @@ namespace TotalHealth
                 currentRecord = dtPractitioners.Rows.Count - 1;
                 PopulateForm();
             }
-
         }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             AddMode();
@@ -208,9 +205,7 @@ namespace TotalHealth
             ClearErrors();
             errorProvider1.Clear();
             ReadyMode();
-
         }
-
 
         private void btnSave_Click(object sender, EventArgs e)
         {
@@ -270,7 +265,6 @@ namespace TotalHealth
         private void txtFirstName_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!addMode) { EditMode(); }
-
         }
 
         private void cboType_SelectionChangeCommitted(object sender, EventArgs e)
@@ -291,7 +285,6 @@ namespace TotalHealth
                 }
                 else
                 {
-
                     DialogResult result = MessageBox.Show("Are you sure you want to permanently delete this record?", "Exit?",
                     MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (result == DialogResult.No)
@@ -318,9 +311,7 @@ namespace TotalHealth
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
-
         }
-
         #endregion  
 
         #region Validation

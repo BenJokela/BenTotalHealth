@@ -40,8 +40,8 @@ namespace TotalHealth
             //{
             //    this.Close();
             //}
-            tss1.Text = string.Empty;
-            tss2.Text = "Ready";
+            //tss1.Text = string.Empty;
+            //tss2.Text = "Ready";
         }
 
         private void patientToolStripMenuItem_Click(object sender, EventArgs e)
@@ -134,6 +134,11 @@ namespace TotalHealth
                 tabControl1.TabPages.Add(frmPatientReport);
             }
 
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = false;
         }
     }
 }
