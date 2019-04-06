@@ -62,7 +62,7 @@
             this.tss2});
             this.statusStrip1.Location = new System.Drawing.Point(0, 635);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(946, 24);
+            this.statusStrip1.Size = new System.Drawing.Size(952, 24);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -80,13 +80,14 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Font = new System.Drawing.Font("Georgia", 8.830189F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(18, 18);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mainToolStripMenuItem,
             this.reportToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(946, 27);
+            this.menuStrip1.Size = new System.Drawing.Size(952, 25);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -97,7 +98,7 @@
             this.patientToolStripMenuItem,
             this.practitionerToolStripMenuItem});
             this.mainToolStripMenuItem.Name = "mainToolStripMenuItem";
-            this.mainToolStripMenuItem.Size = new System.Drawing.Size(52, 23);
+            this.mainToolStripMenuItem.Size = new System.Drawing.Size(52, 21);
             this.mainToolStripMenuItem.Text = "&Main";
             // 
             // appointmentToolStripMenuItem
@@ -127,31 +128,32 @@
             this.patientChargesToolStripMenuItem,
             this.patientReportToolStripMenuItem});
             this.reportToolStripMenuItem.Name = "reportToolStripMenuItem";
-            this.reportToolStripMenuItem.Size = new System.Drawing.Size(62, 23);
+            this.reportToolStripMenuItem.Size = new System.Drawing.Size(64, 21);
             this.reportToolStripMenuItem.Text = "&Report";
             // 
             // patientChargesToolStripMenuItem
             // 
             this.patientChargesToolStripMenuItem.Name = "patientChargesToolStripMenuItem";
-            this.patientChargesToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
+            this.patientChargesToolStripMenuItem.Size = new System.Drawing.Size(260, 24);
             this.patientChargesToolStripMenuItem.Text = "Appointments by &Date Range";
             this.patientChargesToolStripMenuItem.Click += new System.EventHandler(this.patientChargesToolStripMenuItem_Click);
             // 
             // patientReportToolStripMenuItem
             // 
             this.patientReportToolStripMenuItem.Name = "patientReportToolStripMenuItem";
-            this.patientReportToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
+            this.patientReportToolStripMenuItem.Size = new System.Drawing.Size(260, 24);
             this.patientReportToolStripMenuItem.Text = "Pa&tient Report";
             this.patientReportToolStripMenuItem.Click += new System.EventHandler(this.patientReportToolStripMenuItem_Click);
             // 
             // tabControl1
             // 
+            this.tabControl1.BackColor = System.Drawing.SystemColors.ControlDark;
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tabControl1.Location = new System.Drawing.Point(0, 97);
+            this.tabControl1.Location = new System.Drawing.Point(0, 85);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl1.MenuRenderer = null;
             this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Size = new System.Drawing.Size(946, 538);
+            this.tabControl1.Size = new System.Drawing.Size(952, 550);
             this.tabControl1.TabCloseButtonImage = null;
             this.tabControl1.TabCloseButtonImageDisabled = null;
             this.tabControl1.TabCloseButtonImageHot = null;
@@ -175,9 +177,9 @@
             this.tsbPractitioner,
             this.toolStripSeparator2,
             this.toolStripButton2});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 27);
+            this.toolStrip1.Location = new System.Drawing.Point(0, 25);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(946, 61);
+            this.toolStrip1.Size = new System.Drawing.Size(952, 61);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -257,7 +259,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(946, 659);
+            this.ClientSize = new System.Drawing.Size(952, 659);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.statusStrip1);

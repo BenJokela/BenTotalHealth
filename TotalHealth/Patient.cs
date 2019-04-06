@@ -31,6 +31,14 @@ namespace TotalHealth
             ReadyMode();
             FillLastNames();
             btnDelete.Enabled = false;
+
+            foreach (Control ctl in this.Controls)
+            {
+                if (ctl is Button)
+                {
+                    ctl.BringToFront();
+                }
+            }
         }
         #region Startup
         private void FillLastNames()
@@ -588,5 +596,9 @@ namespace TotalHealth
 
         #endregion
 
+        private void lblLast_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

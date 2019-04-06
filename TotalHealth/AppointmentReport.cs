@@ -22,6 +22,7 @@ namespace TotalHealth
         {
             InitializeComponent();
             myParent = p;
+            dgvAppointments.DefaultCellStyle.Font = new Font("Verdana", 10F, FontStyle.Regular);
         }
 
         private DataTable GetData(string sqlStatement)
@@ -53,7 +54,7 @@ namespace TotalHealth
 
                 string sql = $"SELECT P.FirstName, P.LastName, T.FirstName, T.LastName, A.TotalCharge, A.StartDate, P.LoyaltyDiscount FROM Patient P" +
                                        $" JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON " +
-                                       $"T.TherapistID = A.TherapistID WHERE A.StartDate BETWEEN '{dateFrom}' AND '{dateTo}'";
+                                       $"T.TherapistID = A.TherapistID WHERE A.StartDate >= '{dateFrom}' AND StartDate <= '{dateTo}'";
 
                 if (chkLoyalty.Checked == true)
                 {
@@ -67,10 +68,10 @@ namespace TotalHealth
                 dgvAppointments.ReadOnly = true;
                 dgvAppointments.Columns[0].HeaderCell.Value = "Patient First Name";
                 dgvAppointments.Columns[1].HeaderCell.Value = "Patient Last Name";
-                dgvAppointments.Columns[2].HeaderCell.Value = "Therapist First Name";
-                dgvAppointments.Columns[3].HeaderCell.Value = "Therapist Last Name";
+                dgvAppointments.Columns[2].HeaderCell.Value = "Practitioner First Name";
+                dgvAppointments.Columns[3].HeaderCell.Value = "Practitioner Last Name";
                 dgvAppointments.Columns[4].HeaderCell.Value = "Total Charge";
-                dgvAppointments.Columns[5].HeaderCell.Value = "Appointment Date";
+                dgvAppointments.Columns[5].HeaderCell.Value = "Appointment Date and Time";
                 dgvAppointments.Columns[4].DefaultCellStyle.Format = "c";
             }
             catch (SqlException sqlex)
@@ -81,6 +82,11 @@ namespace TotalHealth
             {
                 MessageBox.Show(ex.Message, ex.GetType().ToString());
             }
+        }
+
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            dtpTo.MinDate = dtpFrom.Value;
         }
     }
 }

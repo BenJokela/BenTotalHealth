@@ -22,6 +22,8 @@ namespace TotalHealth
         {
             InitializeComponent();
             myParent = p;
+            dgvPatientCharges.DefaultCellStyle.Font = new Font("Verdana", 10F, FontStyle.Regular);
+
         }
 
 
@@ -67,7 +69,7 @@ namespace TotalHealth
                 {
                     string sql = $"SELECT P.PatientNumber, P.FirstName, P.LastName, SUM(TotalCharge) AS TotalCharges " +
                         $"FROM Patient P JOIN Appointment A ON P.PatientNumber = A.PatientNumber JOIN Therapist T ON A.TherapistID = T.TherapistID " +
-                        $"WHERE T.TherapistType = {lstTherapistType.SelectedValue} GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
+                        $"WHERE T.TherapistType = {lstTherapistType.SelectedValue} AND EndDate <= GETDATE() GROUP BY P.PatientNumber, P.LastName, P.FirstName;";
 
                     DataTable dtPatientCharges = GetData(sql);
 
